@@ -1,0 +1,16 @@
+
+{
+    "actionButtons": {
+        "reloadButton": null,
+        "loadNpmCommands": false,
+        "commands": [
+            {
+                "name": "$(triangle-right) Run Pyduino",
+                "cwd": "${extensionInstallFolder:Bergschaf.pyduino}",
+                "command": "env/Scripts/python.exe run.py ${file}",
+                "singleInstance": true
+            }
+        ]
+    },
+    "files.autoSave": "onFocusChange"
+}
