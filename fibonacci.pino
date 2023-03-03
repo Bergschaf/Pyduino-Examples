@@ -11,15 +11,16 @@ int fib_board(int n):
 
 #main
 int start = millis()
-print("Result: " + fib(35))
+print("Result: " + fib(40))
 print("Time: " + (millis() - start) + "ms")
 
 #board
 int start = millis()
-print("Result (executed on PC): " + fib(35))
+print("Result (executed on PC): " + fib(40))
 print("Time (executed on PC): " + (millis() - start) + "ms")
 
 start = millis()
 print("Result: " + fib_board(35))
 print("Time: " + (millis() - start) + "ms")
+
 
