@@ -1,25 +1,8 @@
 @main
-int fib(int n):
-    if n < 2:
-        return n
-    return fib(n-1) + fib(n-2)
-
-int fib_board(int n):
-    if n < 2:
-        return n
-    return fib_board(n-1) + fib_board(n-2)
+int x(int n):
+    print(n + 1)
+    return 1
 
 #main
-int start = millis()
-print("Result: " + fib(35))
-print("Time: " + (millis() - start) + "ms")
-
-#board
-int start = millis()
-print("Result (executed on PC): " + fib(35))
-print("Time (executed on PC): " + (millis() - start) + "ms")
-
-start = millis()
-print("Result: " + fib_board(35))
-print("Time: " + (millis() - start) + "ms")
+print(x(1))
 
