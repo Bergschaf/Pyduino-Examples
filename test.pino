@@ -1,3 +1,0 @@
-#board
-for i in range(100):
-    print(random(50,100))
