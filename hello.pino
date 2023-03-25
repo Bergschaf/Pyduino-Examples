@@ -1,7 +1,4 @@
 
 
 #main
-print("hello world")
-
-#board
-print("hello world")
+print("Hello World")
