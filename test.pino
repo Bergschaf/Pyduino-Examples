@@ -1,11 +1,3 @@
-
-@main
-int x(int n):
-    return n * n
-
 #board
-
-print(x(5))
-
-#main
-print("Hello World")
+for i in range(100):
+    print(random(50,100))
