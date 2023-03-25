@@ -1,4 +1,9 @@
 
 
-#main
-print("Hello World")
+#board
+while True:
+    digitalWrite(11,1)
+    delay(random(50,400))
+    digitalWrite(11,0)
+    delay(random(50,400))
+    print("hello")

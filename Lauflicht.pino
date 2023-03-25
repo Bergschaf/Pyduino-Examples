@@ -1,6 +1,6 @@
-int function(int a, float offset):
-    a = a - 3
-    float x = (a + offset) * 1.5
+int function(int port, float offset):
+    port = port - 3
+    float x = (port + offset) * 1.5
     int value = int(1/(x*x + 0.5) * 125) - 10
     if value < 0:
         value = 0
@@ -17,6 +17,9 @@ while True:
             int value = function(j, offset)
             analogWrite(ports[j],value)
         delay(1)
+
+
+
     for i in range(500, -500, -1):
         float offset = i / 100.0
         for j in range(6):
