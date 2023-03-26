@@ -2,14 +2,9 @@
 
 int nothing = 0
 int man = 1
-int score = 0
 int[] blocks = [2,3,4,5,6]
 int last_time = 0
-bool auto_mode = False
-bool man_up = False
 
-bool jump_pressed = False
-bool mode_pressed = False
 
 lcd_createCustomChar("1111111111111111111111111111111111111111",nothing)
 lcd_createCustomChar("1001110011111111000100011100110010101100",man)
@@ -20,108 +15,129 @@ lcd_createCustomChar("1101111011110111101111011110111101111011",blocks[2])
 lcd_createCustomChar("1110111101111011110111101111011110111101",blocks[1])
 lcd_createCustomChar("1111011110111101111011110111101111011110",blocks[0])
 
-int time = 100
-int[] upper = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-int[] lower = [man,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0]
-
 while True:
+    int time = 100
+    int[] upper = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    int[] lower = [man,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0]
+    bool auto_mode = False
+    bool man_up = False
 
-    for i in range(16):
-        if upper[i] == blocks[4]:
-            upper[i] = 0
-            upper[i-1] = blocks[0]
-        elif upper[i] > man:
-            upper[i] = upper[i] + 1
+    bool jump_pressed = False
+    bool mode_pressed = False
+    int score = 0
+    while True:
+        for i in range(16):
+            if upper[i] == blocks[4]:
+                upper[i] = 0
+                if i > 0:
+                    upper[i-1] = blocks[0]
+            elif upper[i] > man:
+                upper[i] = upper[i] + 1
+            
+            if lower[i] == blocks[4]:
+                lower[i] = 0
+                if i > 0:
+                    lower[i-1] = blocks[0]
+            elif lower[i] > man:
+                lower[i] = lower[i] + 1
+            
+        int rand = random(0,100)
+        if rand > 80 and upper[15] == 0 and upper[14] == 0 and upper[13] == 0 and upper[12] == 0 and lower[15] == 0 and lower[14] == 0 and lower[13] == 0:
+            upper[15] = blocks[random(5)]
         
-        if lower[i] == blocks[4]:
-            lower[i] = 0
-            lower[i-1] = blocks[0]
-        elif lower[i] > man:
-            lower[i] = lower[i] + 1
-        
-    if random(10) > 7 and upper[15] == 0 and lower[15] == 0 and upper[14] == 0 and lower[14] == 0 and upper[13] == 0 and lower[13] == 0:
-        upper[15] = blocks[0]
-    
-    else:
-        upper[15] = upper[15]
+        if rand < 20 and lower[15] == 0 and lower[14] == 0 and lower[13] == 0 and lower[12] == 0 and upper[15] == 0 and upper[14] == 0 and upper[13] == 0:
+            lower[15] = blocks[random(5)]
 
-    if random(10) > 7 and upper[15] == 0 and lower[15] == 0 and upper[14] == 0 and lower[14] == 0 and upper[13] == 0 and lower[13] == 0:
-        lower[15] = blocks[0]
-    else:
-        lower[15] = lower[15]
-
-    if man_up:
-        digitalWrite(11,1)
-
-        upper[0] = man
-        if lower[0] == man:
-            lower[0] = 0
-    else:
-        digitalWrite(11,0)
-        lower[0] = man
-        if upper[0] == man:
-            upper[0] = 0
-
-    for i in range(16):
-        if upper[i] != 0:
-            lcd_setCursor(i,0)
-            lcd_writeCustomChar(upper[i])
-        if lower[i] != 0:
-            lcd_setCursor(i,1)
-            lcd_writeCustomChar(lower[i])
-
-    if score < 10:
-        lcd_setCursor(15,0)
-    elif score < 100:
-        lcd_setCursor(14,0)
-    elif score < 1000:
-        lcd_setCursor(13,0)
-    else:
-        lcd_setCursor(12,0)
-
-    lcd_print(str(score))    
-
-    int ms = millis()
-    print(digitalRead(13), str(jump_pressed))
-    while last_time + time > ms:
-        ms = millis()
-        if digitalRead(13) == 1 and jump_pressed == False:
-            jump_pressed = True
-            if man_up:
-                man_up = False
-                lcd_setCursor(0,0)
-                lcd_writeCustomChar(0)
-                lcd_setCursor(0,1)
-                lcd_writeCustomChar(man)
-            else:
+        if auto_mode:
+            if lower[1] > man:
                 man_up = True
-                lcd_setCursor(0,1)
-                lcd_writeCustomChar(0)
-                lcd_setCursor(0,0)
-                lcd_writeCustomChar(man)
+            if upper[1] > man:
+                man_up = False
+
+        if (man_up and upper[0] > man) or (man_up == False and lower[0] > man):
+            lcd_clear()
+            lcd_print("Game Over")
+            lcd_setCursor(0,1)
+            lcd_print("Score: " + str(score))
+            delay(1000)
+            lcd_setCursor(0,0)
+            lcd_print("Press any button")
+            int btn = digitalRead(13) + digitalRead(12)
+            while btn == 0:
+                btn = digitalRead(13) + digitalRead(12)
+            break
+
+        if man_up:
+            upper[0] = man
+            if lower[0] == man:
+                lower[0] = 0
+        else:
+            lower[0] = man
+            if upper[0] == man:
+                upper[0] = 0
+
+        for i in range(16):
+            if upper[i] != 0:
+                lcd_setCursor(i,0)
+                lcd_writeCustomChar(upper[i])
+            if lower[i] != 0:
+                lcd_setCursor(i,1)
+                lcd_writeCustomChar(lower[i])
+
+        if score < 10:
+            lcd_setCursor(15,0)
+        elif score < 100:
+            lcd_setCursor(14,0)
+        elif score < 1000:
+            lcd_setCursor(13,0)
+        else:
+            lcd_setCursor(12,0)
+
+        lcd_print(str(score))    
+
+        int ms = millis()
+        while last_time + time > ms:
+            ms = millis()
+            if digitalRead(13) == 1 and jump_pressed == False:
+                jump_pressed = True
+                if man_up:
+                    man_up = False
+                    lcd_setCursor(0,0)
+                    lcd_writeCustomChar(0)
+                    lcd_setCursor(0,1)
+                    lcd_writeCustomChar(man)
+                else:
+                    man_up = True
+                    lcd_setCursor(0,1)
+                    lcd_writeCustomChar(0)
+                    lcd_setCursor(0,0)
+                    lcd_writeCustomChar(man)
+            
+            if digitalRead(13) != 1:
+                jump_pressed = False
+            
+            if digitalRead(12) == 1 and mode_pressed == False:
+                mode_pressed = True
+                if auto_mode:
+                    auto_mode = False
+                else:
+                    auto_mode = True
+            
+            if digitalRead(12) != 1:
+                mode_pressed = False
+
+                                
+        last_time = millis()
+        if auto_mode == False:
+            score = score + 1
+
+        if score % 10 == 0 and time > 40 and auto_mode == False:
+            time = time - 1
         
-        if digitalRead(13) != 1:
-            jump_pressed = False
-        
-        if digitalRead(12) == 1 and mode_pressed == False:
-            mode_pressed = True
-            if auto_mode:
-                auto_mode = False
-            else:
-                auto_mode = True
-        
-        if digitalRead(12) != 1:
-            mode_pressed = False
+        if auto_mode and score % 30 == 0:
+            time = time - 1
 
-                             
-    last_time = millis()
-    if auto_mode == False:
-        score = score + 1
+        # Print the score to the upper right corner
 
-    if score % 20 == 0 and time > 40 and auto_mode == False:
-        time = time - 1
-
-    # Print the score to the upper right corner
-
-    lcd_clear()
+        lcd_clear()
 
