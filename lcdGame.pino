@@ -134,7 +134,7 @@ while True:
         if score % 10 == 0 and time > 40 and auto_mode == False:
             time = time - 1
         
-        if auto_mode and score % 30 == 0:
+        if auto_mode and ms % (time * 30) == 0:
             time = time - 1
 
         # Print the score to the upper right corner
