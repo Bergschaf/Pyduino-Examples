@@ -1,0 +1,20 @@
+#board
+
+int time = 0
+int[] ports = [11,10,9,6,5,3]
+
+
+
+while True:
+    for i in range(255):
+        for p in ports:
+            analogWrite(p, i)
+        delay(10)
+    
+    for i in range(255,0,-1):
+        for p in ports:
+            analogWrite(p, i)
+        delay(10)
+    
+
+

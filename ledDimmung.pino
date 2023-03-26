@@ -1,0 +1,9 @@
+#main
+while True:
+    for i in range(255):
+        analogWrite(11,i)
+        print(i)
+
+    for i in range(255,0,-1):
+        analogWrite(11,i)
+        print(i)
