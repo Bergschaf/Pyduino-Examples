@@ -1,0 +1,5 @@
+#board
+while True:
+    lcd_print(str(analogRead(0)))
+    delay(10)
+    lcd_clear()

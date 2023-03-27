@@ -1,0 +1,5 @@
+#board
+for i in range(100):
+    lcd_print(str(i))
+    delay(100)
+    lcd_setCursor(0, 0)

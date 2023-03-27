@@ -1,0 +1,8 @@
+#board
+while True:
+    if digitalRead(11):
+        analogWrite(13,255)
+        analogWrite(12,0)
+    else:
+        analogWrite(13,0)
+        analogWrite(12,255)
