@@ -1,3 +1,6 @@
+#main
+print("Hello World")
+
 #board
 
 int time = 0
@@ -7,8 +10,8 @@ int[] ports = [13,12,11,10,9,8]
 while True:
     for port in ports:
         time = analogRead(0)
+        print("Zeit: ", time)
         analogWrite(port, 255)
         delay(time)
         analogWrite(port, 0)
-        delay(time)
         
